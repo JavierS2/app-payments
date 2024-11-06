@@ -1,0 +1,42 @@
+services:
+  user-db:
+    image: postgres:16
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234   
+      POSTGRES_DB: users
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./postgres:/var/lib/postgresql/data  
+    networks:
+      - user-network
+
+  app:
+    image: openjdk:17-jdk-slim  
+    container_name: spring-boot-micro-user
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5433/users
+      SPRING_DATASOURCE_USERNAME: users
+      SPRING_DATASOURCE_PASSWORD: 1234  
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update  
+      SPRING_APPLICATION_NAME: user
+      SERVER_PORT: 8080
+    ports:
+      - "8081:8080"
+    volumes:
+      - ./target:/app  
+    working_dir: /app  
+    entrypoint: ["java", "-jar", "your-app.jar"]  
+    depends_on:
+      - user-db
+    networks:
+      - user-network
+
+volumes:
+  postgres_data:  
+
+networks:
+  user-network:
+    driver: bridge
