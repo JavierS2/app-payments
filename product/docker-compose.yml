@@ -1,21 +1,21 @@
 services:
-  user-db:
+  product-db:
     image: postgres:16
     restart: always
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 1234
-      POSTGRES_DB: users
+      POSTGRES_DB: products
     ports:
-      - "5434:5432"
+      - "5433:5432"
     volumes:
-      - ./postgres:/var/lib/postgresql/data  
+      - ./postgres:/var/lib/postgresql/data
     networks:
-      - user-network
+      - product-network
 
 volumes:
-  postgres_data:  
+  postgres_data:
 
 networks:
-  user-network:
+  product-network:
     driver: bridge

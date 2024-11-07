@@ -1,21 +1,21 @@
 services:
-  user-db:
+  order-db:
     image: postgres:16
     restart: always
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 1234
-      POSTGRES_DB: users
+      POSTGRES_DB: orders
     ports:
-      - "5434:5432"
+      - "5432:5432"
     volumes:
-      - ./postgres:/var/lib/postgresql/data  
+      - ./postgres:/var/lib/postgresql/data
     networks:
-      - user-network
+      - order-network
 
 volumes:
-  postgres_data:  
+  postgres_data:
 
 networks:
-  user-network:
+  order-network:
     driver: bridge
