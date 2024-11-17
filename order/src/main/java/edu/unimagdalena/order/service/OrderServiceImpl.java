@@ -53,10 +53,10 @@ public class OrderServiceImpl implements OrderService {
             }
             Order orderFromDB = orderRepository.findById(id)
                     .orElseThrow(() -> new IllegalArgumentException("Order not found"));
-            orderFromDB.setProductId(OrderDTO.getProductId());
-            orderFromDB.setQuantity(OrderDTO.getQuantity());
-            orderFromDB.setStatus(OrderDTO.getStatus());
-            orderFromDB.setUserId(OrderDTO.getUserId());
+            orderFromDB.setProductId(OrderDTO.productId());
+            orderFromDB.setQuantity(OrderDTO.quantity());
+            orderFromDB.setStatus(OrderDTO.status());
+            orderFromDB.setUserId(OrderDTO.userId());
             Order savedOrder = orderRepository.save(orderFromDB);
             return OrderMapper.INSTANCE.orderToOrderDTO(savedOrder);
         } catch (Exception e) {
@@ -70,17 +70,17 @@ public class OrderServiceImpl implements OrderService {
 
             Order Order = orderRepository.findById(id)
                     .orElseThrow(() -> new EntityNotFoundException("La Order con ID " + id + " no existe."));
-            if (OrderDTO.getProductId() != null) {
-                Order.setProductId(OrderDTO.getProductId());
+            if (OrderDTO.productId() != null) {
+                Order.setProductId(OrderDTO.productId());
             }
-            if (OrderDTO.getQuantity() != null) {
-                Order.setQuantity(OrderDTO.getQuantity());
+            if (OrderDTO.quantity() != null) {
+                Order.setQuantity(OrderDTO.quantity());
             }
-            if (OrderDTO.getStatus() != null) {
-                Order.setStatus(OrderDTO.getStatus());
+            if (OrderDTO.status() != null) {
+                Order.setStatus(OrderDTO.status());
             }
-            if (OrderDTO.getUserId() != null) {
-                Order.setUserId(OrderDTO.getUserId());
+            if (OrderDTO.userId() != null) {
+                Order.setUserId(OrderDTO.userId());
             }
             Order = orderRepository.save(Order);
             return OrderMapper.INSTANCE.orderToOrderDTO(Order);

@@ -62,10 +62,10 @@ public class ProductServiceImpl implements ProductService {
 
             Product producto = productRepository.findById(id)
                     .orElseThrow(() -> new EntityNotFoundException("No se encontro el producto con la ID: " + id));
-            producto.setName(detallesProduct.getName());
-            producto.setDescription(detallesProduct.getDescription());
-            producto.setPrice(detallesProduct.getPrice());
-            producto.setStock(detallesProduct.getStock());
+            producto.setName(detallesProduct.name());
+            producto.setDescription(detallesProduct.description());
+            producto.setPrice(detallesProduct.price());
+            producto.setStock(detallesProduct.stock());
             Product productoFromDB = productRepository.save(producto);
             return ProductMapper.INSTANCE.productToProductDTO(productoFromDB);
 

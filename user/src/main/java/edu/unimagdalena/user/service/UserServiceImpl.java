@@ -31,10 +31,10 @@ public class UserServiceImpl implements UserService {
     public UserDTO update(Long id, UserDTO userDTO) {
         User userToUpdate = userRepository.findById(id)
                 .orElseThrow(ResourceNotFoundException::new);
-//        userToUpdate.setUsername(userDTO.username());
-//        userToUpdate.setId(userDTO.id());
-//        userToUpdate.setEmail(userDTO.email());
-//        userToUpdate.setUsername(userDTO.username());
+        userToUpdate.setUsername(userDTO.username());
+        userToUpdate.setId(userDTO.id());
+        userToUpdate.setEmail(userDTO.email());
+        userToUpdate.setUsername(userDTO.username());
         return UserMapper.INSTANCE.entityToDTO(userRepository.save(userToUpdate));
     }
 
