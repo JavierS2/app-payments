@@ -23,7 +23,7 @@ public class UserController {
     }
 
     @GetMapping
-    @PreAuthorize("hasRole('USER')")
+    //@PreAuthorize("hasRole('USER')")
     public ResponseEntity<List<UserDTO>> getAll() {
         List<UserDTO> users = userService.getAll();
         return ResponseEntity.ok().body(users);

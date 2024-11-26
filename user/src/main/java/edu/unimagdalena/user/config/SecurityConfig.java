@@ -1,4 +1,4 @@
-package edu.unimagdalena.order.config;
+package edu.unimagdalena.user.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
