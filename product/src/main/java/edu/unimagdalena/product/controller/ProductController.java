@@ -4,6 +4,7 @@ import edu.unimagdalena.product.dto.ProductDTO;
 import edu.unimagdalena.product.service.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.persistence.EntityNotFoundException;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/products")
 public class ProductController {
@@ -25,7 +28,15 @@ public class ProductController {
         this.productService = productService;
     }
 
+    @GetMapping
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<List<ProductDTO>> getAllProducts() {
+        List<ProductDTO> productDTOS = productService.getAllProducts();
+        return ResponseEntity.status(HttpStatus.OK).body(productDTOS);
+    }
+
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> getProductById(@PathVariable("id") Long id) {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(productService.getProductById(id));
@@ -39,6 +50,7 @@ public class ProductController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> postProduct(@RequestBody ProductDTO productDTO) { // ya funciona
         try {
             productService.saveProduct(productDTO);
@@ -51,6 +63,7 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> putProductById(@PathVariable("id") Long id, @RequestBody ProductDTO detallesproduct) {
         try {
             productService.updateProduct(id, detallesproduct);
@@ -64,6 +77,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> deleteProductById(@PathVariable("id") long id) {
         try {
             productService.deleteProductById(id);
@@ -72,6 +86,5 @@ public class ProductController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
-
 }
 

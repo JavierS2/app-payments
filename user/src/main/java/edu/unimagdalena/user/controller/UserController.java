@@ -4,11 +4,10 @@ import edu.unimagdalena.user.entity.UserDTO;
 import edu.unimagdalena.user.exception.ResourceNotAbleToDeleteException;
 import edu.unimagdalena.user.exception.ResourceNotFoundException;
 import edu.unimagdalena.user.service.UserServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.security.access.prepost.PreAuthorize;
 import java.util.List;
 
 @RestController
@@ -22,18 +21,21 @@ public class UserController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<List<UserDTO>> getAll() {
         List<UserDTO> users = userService.getAll();
         return ResponseEntity.ok().body(users);
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<UserDTO> create(@RequestBody UserDTO userDTO) {
         UserDTO user = userService.create(userDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<UserDTO> update(@PathVariable Long id, @RequestBody UserDTO userDTO) {
         try {
             UserDTO user = userService.update(id, userDTO);
@@ -44,6 +46,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<UserDTO> delete(@PathVariable Long id) {
         try {
             userService.delete(id);
@@ -54,6 +57,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<UserDTO> getById(@PathVariable Long id) {
         try {
             UserDTO user = userService.getById(id);

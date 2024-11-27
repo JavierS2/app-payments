@@ -4,17 +4,25 @@ import edu.unimagdalena.product.dto.ProductDTO;
 import edu.unimagdalena.product.entity.Product;
 import edu.unimagdalena.product.mapper.ProductMapper;
 import edu.unimagdalena.product.repository.ProductRepository;
+import org.springframework.data.repository.core.support.RepositoryMethodInvocationListener;
 import org.springframework.stereotype.Service;
 
 import jakarta.persistence.EntityNotFoundException;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.antlr.v4.runtime.tree.xpath.XPath.findAll;
 
 @Service
 public class ProductServiceImpl implements ProductService {
     
     private final ProductRepository productRepository;
+    private final RepositoryMethodInvocationListener repositoryMethodInvocationListener;
 
-    public ProductServiceImpl(ProductRepository productRepository) {
+    public ProductServiceImpl(ProductRepository productRepository, RepositoryMethodInvocationListener repositoryMethodInvocationListener) {
         this.productRepository = productRepository;
+        this.repositoryMethodInvocationListener = repositoryMethodInvocationListener;
     }
 
     @Override
@@ -88,6 +96,12 @@ public class ProductServiceImpl implements ProductService {
             throw new EntityNotFoundException("Ha ocurrido un error al eliminar el producto con la ID: " + id);
         }
 
+    }
+
+    @Override
+    public List<ProductDTO> getAllProducts() {
+        List<Product> products = productRepository.findAll();
+        return products.stream().map(ProductMapper.INSTANCE::productToProductDTO).collect(Collectors.toList());
     }
 
 }

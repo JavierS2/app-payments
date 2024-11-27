@@ -2,11 +2,14 @@ package edu.unimagdalena.product.service;
 
 import edu.unimagdalena.product.dto.ProductDTO;
 
+import java.util.List;
+
 public interface ProductService {
 
-    public ProductDTO getProductById(Long id);
-    public ProductDTO saveProduct(ProductDTO productoDTO);
-    public ProductDTO updateProduct(Long id, ProductDTO detallesProduct);
-    public void deleteProductById(Long id);
+    ProductDTO getProductById(Long id);
+    ProductDTO saveProduct(ProductDTO productoDTO);
+    ProductDTO updateProduct(Long id, ProductDTO detallesProduct);
+    void deleteProductById(Long id);
+    List<ProductDTO> getAllProducts();
 
 }
